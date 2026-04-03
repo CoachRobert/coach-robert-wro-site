@@ -411,9 +411,9 @@ function App() {
   const [fieldPurchaseCount, setFieldPurchaseCount] = useState();
   const [registrationFeeCount, setRegistrationFeeCount] = useState();
   const [trainingRegion, setTrainingRegion] = useState("");
-  const [trainingWeeks, setTrainingWeeks] = useState(16);
-  const [sessionsPerWeek, setSessionsPerWeek] = useState(1);
-  const [hoursPerSession, setHoursPerSession] = useState(1);
+  const [trainingWeeks, setTrainingWeeks] = useState();
+  const [sessionsPerWeek, setSessionsPerWeek] = useState();
+  const [hoursPerSession, setHoursPerSession] = useState();
   const [trainingRobotKitCount, setTrainingRobotKitCount] = useState();
   const [trainingVenue, setTrainingVenue] = useState("自家车库");
   const [coachHours1, setCoachHours1] = useState();
@@ -741,14 +741,14 @@ function App() {
                       value={trainingWeeks}
                       onChange={setTrainingWeeks}
                       suffix="周"
-                      options={[0，4, 6, 8, 10, 12, 14, 16, 18, 20]}
+                      options={[0, 4, 6, 8, 10, 12, 14, 16, 18, 20]}
                     />
                     <NumberSelect
                       label="每周几次"
                       value={sessionsPerWeek}
                       onChange={setSessionsPerWeek}
                       suffix="次"
-                      options={[0，1, 2, 3, 4, 5]}
+                      options={[0, 1, 2, 3, 4, 5]}
                     />
                   </div>
 
@@ -758,7 +758,7 @@ function App() {
                       value={hoursPerSession}
                       onChange={setHoursPerSession}
                       suffix="小时"
-                      options={[0，1, 2, 3, 4, 5, 6]}
+                      options={[0, 1, 2, 3, 4, 5, 6]}
                     />
                     <NumberSelect
                       label="器材套数"
