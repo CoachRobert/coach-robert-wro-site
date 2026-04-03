@@ -698,7 +698,7 @@ function App() {
                     value={teamRegistrationCount}
                     onChange={setTeamRegistrationCount}
                     suffix="次"
-                    options={[0, 1, 2, 3, 4, 5]}
+                    options={[0, 1]}
                   />
 
                   <NumberSelect
@@ -706,15 +706,15 @@ function App() {
                     value={fieldPurchaseCount}
                     onChange={setFieldPurchaseCount}
                     suffix="次"
-                    options={[0, 1, 2, 3, 4, 5]}
+                    options={[0, 1]}
                   />
 
                   <NumberSelect
-                    label="注册比赛费"
+                    label="比赛场次"
                     value={registrationFeeCount}
                     onChange={setRegistrationFeeCount}
                     suffix="次"
-                    options={[0, 1, 2, 3, 4, 5]}
+                    options={[0, 1, 2]}
                   />
 
                   <div>
