@@ -907,10 +907,7 @@ function App() {
                   </div>
                 </div>
 
-                <div style={{ height: "16px" }} />
-                <button style={s.btn} onClick={copyQuote}>
-                  复制报价摘要
-                </button>
+                
               </div>
             </div>
           )}
