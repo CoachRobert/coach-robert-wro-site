@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import ReactDOM from "react-dom/client";
 
 const coachImage = "/coach.png";
+const wechatQrImage = "/wechat_QR_code.png";
 
 const pdfPages = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
@@ -62,7 +63,7 @@ function styles() {
     container: {
       maxWidth: "480px",
       margin: "0 auto",
-      paddingBottom: "120px",
+      paddingBottom: "40px",
     },
     header: {
       position: "sticky",
@@ -193,26 +194,6 @@ function styles() {
       color: "#0f172a",
       fontWeight: 700,
     },
-    pageGrid: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: "12px",
-    },
-    thumbButton: {
-      border: "none",
-      background: "#fff",
-      borderRadius: "20px",
-      padding: "8px",
-      textAlign: "left",
-      cursor: "pointer",
-      boxShadow: "0 6px 20px rgba(15,23,42,0.08)",
-    },
-    thumbTitle: {
-      fontSize: "12px",
-      color: "#64748b",
-      padding: "8px 2px 2px",
-      fontWeight: 600,
-    },
     formCard: {
       background: "#fff",
       borderRadius: "24px",
@@ -239,12 +220,15 @@ function styles() {
     select: {
       width: "100%",
       boxSizing: "border-box",
-      padding: "12px 14px",
+      padding: "12px 64px 12px 14px",
       borderRadius: "14px",
       border: "1px solid #d1d5db",
       fontSize: "14px",
       outline: "none",
       background: "#fff",
+      appearance: "auto",
+      WebkitAppearance: "menulist",
+      MozAppearance: "menulist",
     },
     row2: {
       display: "grid",
@@ -339,79 +323,37 @@ function styles() {
       padding: "16px",
       fontWeight: 700,
     },
-    modal: {
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.82)",
-      zIndex: 50,
+    wechatRow: {
+      marginTop: "16px",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
-      padding: "16px",
+      justifyContent: "space-between",
+      gap: "16px",
+      flexWrap: "wrap",
     },
-    modalCard: {
+    wechatText: {
+      fontWeight: 700,
+      color: "#0f172a",
+    },
+    qrImage: {
+      width: "110px",
+      height: "110px",
+      objectFit: "contain",
+      borderRadius: "12px",
+      border: "1px solid #e2e8f0",
       background: "#fff",
-      borderRadius: "20px",
-      padding: "12px",
-      width: "100%",
-      maxWidth: "460px",
+      padding: "4px",
     },
-    modalTop: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      marginBottom: "8px",
-      padding: "4px 6px",
-      fontSize: "14px",
-      color: "#475569",
-      fontWeight: 600,
-    },
-    closeBtn: {
-      border: "none",
-      background: "#f1f5f9",
-      borderRadius: "999px",
-      padding: "8px 12px",
-      cursor: "pointer",
-      fontWeight: 600,
-    },
-    fixedBar: {
-      position: "fixed",
-      left: "50%",
-      bottom: "14px",
-      transform: "translateX(-50%)",
-      width: "calc(100% - 24px)",
-      maxWidth: "480px",
-      background: "#020617",
-      color: "#fff",
-      borderRadius: "24px",
-      padding: "14px 16px",
-      boxShadow: "0 18px 40px rgba(2,6,23,0.35)",
-      zIndex: 30,
-    },
-    fixedBarInner: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: "12px",
-    },
-    fixedSmall: {
+    unitText: {
+      position: "absolute",
+      right: "30px",
+      top: "50%",
+      transform: "translateY(-50%)",
       fontSize: "12px",
-      color: "#94a3b8",
-      marginBottom: "2px",
-    },
-    fixedTitle: {
-      fontSize: "15px",
-      fontWeight: 700,
-    },
-    fixedBtn: {
-      border: "none",
-      background: "#f59e0b",
-      color: "#111827",
-      borderRadius: "16px",
-      padding: "12px 16px",
-      fontWeight: 700,
-      cursor: "pointer",
-      whiteSpace: "nowrap",
+      color: "#64748b",
+      pointerEvents: "none",
+      background: "#fff",
+      paddingLeft: "4px",
     },
   };
 }
@@ -432,33 +374,26 @@ function TabButton({ active, onClick, label }) {
   );
 }
 
-function NumberField({ label, value, onChange, suffix, min = 0 }) {
+function NumberSelect({ label, value, onChange, options, suffix }) {
   const s = styles();
+
   return (
     <div>
       <label style={s.inputLabel}>{label}</label>
       <div style={{ position: "relative" }}>
-        <input
-          type="number"
-          min={min}
+        <select
           value={value}
-          onChange={(e) => onChange(Number(e.target.value || 0))}
-          style={{ ...s.input, paddingRight: suffix ? "48px" : "14px" }}
-        />
-        {suffix ? (
-          <span
-            style={{
-              position: "absolute",
-              right: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              fontSize: "12px",
-              color: "#64748b",
-            }}
-          >
-            {suffix}
-          </span>
-        ) : null}
+          onChange={(e) => onChange(Number(e.target.value))}
+          style={s.select}
+        >
+          {options.map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
+        </select>
+
+        {suffix ? <span style={s.unitText}>{suffix}</span> : null}
       </div>
     </div>
   );
@@ -468,7 +403,6 @@ function App() {
   const s = styles();
 
   const [activeTab, setActiveTab] = useState("coach");
-
 
   const [competitionType, setCompetitionType] = useState("Future Innovator");
   const [ageGroup, setAgeGroup] = useState("Junior");
@@ -620,7 +554,7 @@ function App() {
                   <div style={s.whiteSoftBadge}>WRO USA Team Coach</div>
                   <h2 style={s.cardTitle}>Coach Robert</h2>
                   <p style={s.cardText}>
-                    面向南加州的 WRO 竞赛训练、组队支持、比赛咨询与个性化训练服务。
+                    面向南加州家庭的 WRO 竞赛训练、组队支持、比赛咨询与个性化训练服务。
                   </p>
                 </div>
 
@@ -640,18 +574,22 @@ function App() {
               </div>
 
               <div style={s.infoCard}>
-                <div><span style={s.labelStrong}>服务城市：</span>Eastvale · Rancho Cucamonga · Chino Hills · Irvine</div>
-                <div><span style={s.labelStrong}>支持方式：</span>线下训练、上门培训、组队支持、比赛咨询</div>
-                <div><span style={s.labelStrong}>联系电话：</span>909-219-3801</div>
-              
-                {/* 新增 WeChat 区域 */}
-                <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "16px" }}>
-                  <div style={{ fontWeight: 700 }}>WeChat QR code</div>
-                  <img
-                    src="/wechat_QR_code.png"
-                    alt="WeChat QR Code"
-                    style={{ width: "100px", borderRadius: "12px" }}
-                  />
+                <div>
+                  <span style={s.labelStrong}>服务城市：</span>
+                  Eastvale · Rancho Cucamonga · Chino Hills · Irvine
+                </div>
+                <div>
+                  <span style={s.labelStrong}>支持方式：</span>
+                  线下训练、上门培训、组队支持、比赛咨询
+                </div>
+                <div>
+                  <span style={s.labelStrong}>联系电话：</span>
+                  909-219-3801
+                </div>
+
+                <div style={s.wechatRow}>
+                  <div style={s.wechatText}>WeChat QR code</div>
+                  <img src={wechatQrImage} alt="WeChat QR Code" style={s.qrImage} />
                 </div>
               </div>
             </div>
@@ -668,7 +606,7 @@ function App() {
                   </p>
                 </div>
               </div>
-          
+
               <div style={{ display: "grid", gap: "14px" }}>
                 {pdfPages.map((page) => (
                   <div
@@ -690,7 +628,7 @@ function App() {
                     >
                       {page.title}
                     </div>
-          
+
                     <img
                       src={page.src}
                       alt={page.title}
@@ -705,8 +643,7 @@ function App() {
               </div>
             </div>
           )}
-          
-          
+
           {activeTab === "calculator" && (
             <div style={{ display: "grid", gap: "16px" }}>
               <div style={s.darkCard}>
@@ -748,10 +685,37 @@ function App() {
                     </select>
                   </div>
 
-                  <NumberField label="团队人数" value={teamSize} onChange={setTeamSize} suffix="人" min={1} />
-                  <NumberField label="团队注册费" value={teamRegistrationCount} onChange={setTeamRegistrationCount} suffix="次" />
-                  <NumberField label="比赛场地购买" value={fieldPurchaseCount} onChange={setFieldPurchaseCount} suffix="次" />
-                  <NumberField label="注册比赛费" value={registrationFeeCount} onChange={setRegistrationFeeCount} suffix="次" />
+                  <NumberSelect
+                    label="团队人数"
+                    value={teamSize}
+                    onChange={setTeamSize}
+                    suffix="人"
+                    options={[1, 2, 3, 4, 5, 6, 7, 8]}
+                  />
+
+                  <NumberSelect
+                    label="团队注册费"
+                    value={teamRegistrationCount}
+                    onChange={setTeamRegistrationCount}
+                    suffix="次"
+                    options={[0, 1, 2, 3, 4, 5]}
+                  />
+
+                  <NumberSelect
+                    label="比赛场地购买"
+                    value={fieldPurchaseCount}
+                    onChange={setFieldPurchaseCount}
+                    suffix="次"
+                    options={[0, 1, 2, 3, 4, 5]}
+                  />
+
+                  <NumberSelect
+                    label="注册比赛费"
+                    value={registrationFeeCount}
+                    onChange={setRegistrationFeeCount}
+                    suffix="次"
+                    options={[0, 1, 2, 3, 4, 5]}
+                  />
 
                   <div>
                     <label style={s.inputLabel}>培训地区</label>
@@ -784,18 +748,54 @@ function App() {
                   </div>
 
                   <div style={s.row2}>
-                    <NumberField label="培训周数" value={trainingWeeks} onChange={setTrainingWeeks} suffix="周" />
-                    <NumberField label="每周几次" value={sessionsPerWeek} onChange={setSessionsPerWeek} suffix="次" />
+                    <NumberSelect
+                      label="培训周数"
+                      value={trainingWeeks}
+                      onChange={setTrainingWeeks}
+                      suffix="周"
+                      options={[4, 6, 8, 10, 12, 14, 16, 18, 20]}
+                    />
+                    <NumberSelect
+                      label="每周几次"
+                      value={sessionsPerWeek}
+                      onChange={setSessionsPerWeek}
+                      suffix="次"
+                      options={[1, 2, 3, 4, 5]}
+                    />
                   </div>
 
                   <div style={s.row2}>
-                    <NumberField label="每次小时" value={hoursPerSession} onChange={setHoursPerSession} suffix="小时" />
-                    <NumberField label="器材套数" value={trainingRobotKitCount} onChange={setTrainingRobotKitCount} suffix="套" />
+                    <NumberSelect
+                      label="每次小时"
+                      value={hoursPerSession}
+                      onChange={setHoursPerSession}
+                      suffix="小时"
+                      options={[1, 2, 3, 4, 5, 6]}
+                    />
+                    <NumberSelect
+                      label="器材套数"
+                      value={trainingRobotKitCount}
+                      onChange={setTrainingRobotKitCount}
+                      suffix="套"
+                      options={[0, 1, 2, 3, 4, 5, 6]}
+                    />
                   </div>
 
                   <div style={s.row2}>
-                    <NumberField label="服务1小时" value={coachHours1} onChange={setCoachHours1} suffix="小时" />
-                    <NumberField label="服务2小时" value={coachHours2} onChange={setCoachHours2} suffix="小时" />
+                    <NumberSelect
+                      label="服务1小时"
+                      value={coachHours1}
+                      onChange={setCoachHours1}
+                      suffix="小时"
+                      options={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
+                    />
+                    <NumberSelect
+                      label="服务2小时"
+                      value={coachHours2}
+                      onChange={setCoachHours2}
+                      suffix="小时"
+                      options={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
+                    />
                   </div>
 
                   <div>
@@ -830,17 +830,29 @@ function App() {
 
                   <div style={s.toggleRow}>
                     <span style={s.toggleText}>分享优惠 10%</span>
-                    <input type="checkbox" checked={shareDiscount} onChange={(e) => setShareDiscount(e.target.checked)} />
+                    <input
+                      type="checkbox"
+                      checked={shareDiscount}
+                      onChange={(e) => setShareDiscount(e.target.checked)}
+                    />
                   </div>
 
                   <div style={s.toggleRow}>
                     <span style={s.toggleText}>女生优惠 5%</span>
-                    <input type="checkbox" checked={girlDiscount} onChange={(e) => setGirlDiscount(e.target.checked)} />
+                    <input
+                      type="checkbox"
+                      checked={girlDiscount}
+                      onChange={(e) => setGirlDiscount(e.target.checked)}
+                    />
                   </div>
 
                   <div style={s.toggleRow}>
                     <span style={s.toggleText}>友情优惠</span>
-                    <input type="checkbox" checked={friendDiscount} onChange={(e) => setFriendDiscount(e.target.checked)} />
+                    <input
+                      type="checkbox"
+                      checked={friendDiscount}
+                      onChange={(e) => setFriendDiscount(e.target.checked)}
+                    />
                   </div>
                 </div>
               </div>
@@ -850,7 +862,8 @@ function App() {
                   <div style={s.resultTitle}>团队总成本</div>
                   <div style={s.resultNum}>{money(result.teamTotal)}</div>
                   <div style={{ marginTop: "10px", fontSize: "12px", color: "#cbd5e1" }}>
-                    {result.trainingHours} 小时训练 · 总折扣 {Math.round(result.totalDiscount * 100)}%
+                    {result.trainingHours} 小时训练 · 总折扣{" "}
+                    {Math.round(result.totalDiscount * 100)}%
                   </div>
                 </div>
 
@@ -864,16 +877,36 @@ function App() {
                 <div style={{ height: "14px" }} />
 
                 <div style={s.lineList}>
-                  <div style={s.lineItem}><span>注册小计</span><span>{money(result.competitionSubtotal)}</span></div>
-                  <div style={s.lineItem}><span>培训服务</span><span>{money(result.trainingService)}</span></div>
-                  <div style={s.lineItem}><span>器材成本</span><span>{money(result.trainingRobot)}</span></div>
-                  <div style={s.lineItem}><span>场地成本</span><span>{money(result.venueSubtotal)}</span></div>
-                  <div style={s.lineItem}><span>交通成本</span><span>{money(result.transportSubtotal)}</span></div>
-                  <div style={s.lineItem}><span>赛场教练服务</span><span>{money(result.onsiteCoachSubtotal)}</span></div>
+                  <div style={s.lineItem}>
+                    <span>注册小计</span>
+                    <span>{money(result.competitionSubtotal)}</span>
+                  </div>
+                  <div style={s.lineItem}>
+                    <span>培训服务</span>
+                    <span>{money(result.trainingService)}</span>
+                  </div>
+                  <div style={s.lineItem}>
+                    <span>器材成本</span>
+                    <span>{money(result.trainingRobot)}</span>
+                  </div>
+                  <div style={s.lineItem}>
+                    <span>场地成本</span>
+                    <span>{money(result.venueSubtotal)}</span>
+                  </div>
+                  <div style={s.lineItem}>
+                    <span>交通成本</span>
+                    <span>{money(result.transportSubtotal)}</span>
+                  </div>
+                  <div style={s.lineItem}>
+                    <span>赛场教练服务</span>
+                    <span>{money(result.onsiteCoachSubtotal)}</span>
+                  </div>
                 </div>
 
                 <div style={{ height: "16px" }} />
-                <button style={s.btn} onClick={copyQuote}>复制报价摘要</button>
+                <button style={s.btn} onClick={copyQuote}>
+                  复制报价摘要
+                </button>
               </div>
             </div>
           )}
@@ -881,7 +914,9 @@ function App() {
           {activeTab === "official" && (
             <div style={{ display: "grid", gap: "16px" }}>
               <div style={s.formCard}>
-                <h3 style={{ fontSize: "20px", marginTop: 0, marginBottom: "16px" }}>WRO 官方入口</h3>
+                <h3 style={{ fontSize: "20px", marginTop: 0, marginBottom: "16px" }}>
+                  WRO 官方入口
+                </h3>
                 <div style={{ display: "grid", gap: "12px" }}>
                   <a
                     href="https://wro-association.org/"
@@ -908,8 +943,6 @@ function App() {
           )}
         </div>
       </div>
-
-
     </div>
   );
 }
