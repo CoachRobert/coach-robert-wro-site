@@ -468,7 +468,7 @@ function App() {
   const s = styles();
 
   const [activeTab, setActiveTab] = useState("coach");
-  const [selectedPage, setSelectedPage] = useState(null);
+
 
   const [competitionType, setCompetitionType] = useState("Future Innovator");
   const [ageGroup, setAgeGroup] = useState("Junior");
@@ -653,25 +653,50 @@ function App() {
                 <div style={s.sectionPad}>
                   <div style={s.whiteSoftBadge}>WRO 2026 TRAINING PLAN</div>
                   <h2 style={{ ...s.cardTitle, fontSize: "28px" }}>WRO 培训介绍</h2>
-                  <p style={s.cardText}>保留了你上传 PDF 的 20 页内容，点击任意页面可放大查看。</p>
+                  <p style={s.cardText}>
+                    以下内容按手机纵向连续展示。向下滑动即可依次查看全部 20 页培训内容。
+                  </p>
                 </div>
               </div>
-
-              <div style={s.pageGrid}>
+          
+              <div style={{ display: "grid", gap: "14px" }}>
                 {pdfPages.map((page) => (
-                  <button
+                  <div
                     key={page.id}
-                    onClick={() => setSelectedPage(page)}
-                    style={s.thumbButton}
+                    style={{
+                      background: "#ffffff",
+                      borderRadius: "20px",
+                      padding: "10px",
+                      boxShadow: "0 6px 20px rgba(15,23,42,0.08)",
+                    }}
                   >
-                    <img src={page.src} alt={page.title} style={s.image} />
-                    <div style={s.thumbTitle}>{page.title}</div>
-                  </button>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: "#334155",
+                        padding: "4px 4px 10px 4px",
+                      }}
+                    >
+                      {page.title}
+                    </div>
+          
+                    <img
+                      src={page.src}
+                      alt={page.title}
+                      style={{
+                        width: "100%",
+                        display: "block",
+                        borderRadius: "16px",
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
           )}
-
+          
+          
           {activeTab === "calculator" && (
             <div style={{ display: "grid", gap: "16px" }}>
               <div style={s.darkCard}>
@@ -874,17 +899,7 @@ function App() {
         </div>
       </div>
 
-      {selectedPage && (
-        <div style={s.modal} onClick={() => setSelectedPage(null)}>
-          <div style={s.modalCard} onClick={(e) => e.stopPropagation()}>
-            <div style={s.modalTop}>
-              <span>{selectedPage.title}</span>
-              <button style={s.closeBtn} onClick={() => setSelectedPage(null)}>关闭</button>
-            </div>
-            <img src={selectedPage.src} alt={selectedPage.title} style={{ width: "100%", borderRadius: "16px" }} />
-          </div>
-        </div>
-      )}
+
 
       <div style={s.fixedBar}>
         <div style={s.fixedBarInner}>
