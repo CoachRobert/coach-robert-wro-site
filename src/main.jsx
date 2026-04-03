@@ -404,24 +404,24 @@ function App() {
 
   const [activeTab, setActiveTab] = useState("coach");
 
-  const [competitionType, setCompetitionType] = useState("Future Innovator");
-  const [ageGroup, setAgeGroup] = useState("Junior");
-  const [teamSize, setTeamSize] = useState(2);
-  const [teamRegistrationCount, setTeamRegistrationCount] = useState(0);
-  const [fieldPurchaseCount, setFieldPurchaseCount] = useState(0);
-  const [registrationFeeCount, setRegistrationFeeCount] = useState(0);
-  const [trainingRegion, setTrainingRegion] = useState("EASTVALE");
-  const [trainingWeeks, setTrainingWeeks] = useState(16);
-  const [sessionsPerWeek, setSessionsPerWeek] = useState(0);
-  const [hoursPerSession, setHoursPerSession] = useState(0);
-  const [trainingRobotKitCount, setTrainingRobotKitCount] = useState(0);
+  const [competitionType, setCompetitionType] = useState("");
+  const [ageGroup, setAgeGroup] = useState("");
+  const [teamSize, setTeamSize] = useState();
+  const [teamRegistrationCount, setTeamRegistrationCount] = useState();
+  const [fieldPurchaseCount, setFieldPurchaseCount] = useState();
+  const [registrationFeeCount, setRegistrationFeeCount] = useState();
+  const [trainingRegion, setTrainingRegion] = useState("");
+  const [trainingWeeks, setTrainingWeeks] = useState();
+  const [sessionsPerWeek, setSessionsPerWeek] = useState();
+  const [hoursPerSession, setHoursPerSession] = useState();
+  const [trainingRobotKitCount, setTrainingRobotKitCount] = useState();
   const [trainingVenue, setTrainingVenue] = useState("自家车库");
-  const [coachHours1, setCoachHours1] = useState(0);
-  const [coachHours2, setCoachHours2] = useState(0);
+  const [coachHours1, setCoachHours1] = useState();
+  const [coachHours2, setCoachHours2] = useState();
   const [coachLocation1, setCoachLocation1] = useState("加州");
   const [coachLocation2, setCoachLocation2] = useState("外州");
-  const [shareDiscount, setShareDiscount] = useState(true);
-  const [girlDiscount, setGirlDiscount] = useState(true);
+  const [shareDiscount, setShareDiscount] = useState(false);
+  const [girlDiscount, setGirlDiscount] = useState(false);
   const [friendDiscount, setFriendDiscount] = useState(false);
 
   const result = useMemo(() => {
