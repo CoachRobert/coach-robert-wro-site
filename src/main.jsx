@@ -411,9 +411,9 @@ function App() {
   const [fieldPurchaseCount, setFieldPurchaseCount] = useState();
   const [registrationFeeCount, setRegistrationFeeCount] = useState();
   const [trainingRegion, setTrainingRegion] = useState("");
-  const [trainingWeeks, setTrainingWeeks] = useState();
-  const [sessionsPerWeek, setSessionsPerWeek] = useState();
-  const [hoursPerSession, setHoursPerSession] = useState();
+  const [trainingWeeks, setTrainingWeeks] = useState(16);
+  const [sessionsPerWeek, setSessionsPerWeek] = useState(1);
+  const [hoursPerSession, setHoursPerSession] = useState(1);
   const [trainingRobotKitCount, setTrainingRobotKitCount] = useState();
   const [trainingVenue, setTrainingVenue] = useState("自家车库");
   const [coachHours1, setCoachHours1] = useState();
