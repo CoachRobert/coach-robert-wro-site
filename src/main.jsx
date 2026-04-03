@@ -6,7 +6,7 @@ const coachImage = "/coach.png";
 const pdfPages = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   title: `第${i + 1}页`,
-  src: `/pdf/page_${String(i + 1).padStart(2, "0")}.png`,
+  src: `/pdf/page-${String(i + 1).padStart(2, "0")}.png`,
 }));
 
 const competitionTypes = [
