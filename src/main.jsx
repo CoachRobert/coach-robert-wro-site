@@ -527,7 +527,7 @@ function App() {
                   <div style={s.whiteSoftBadge}>WRO USA Team Coach</div>
                   <h2 style={s.cardTitle}>Coach Robert</h2>
                   <p style={s.cardText}>
-                    面向南加州家庭的 WRO 竞赛训练、组队支持、比赛咨询与个性化训练服务。
+                    面向南加州的 WRO 竞赛训练、组队支持、比赛咨询与个性化训练服务。
                   </p>
                 </div>
 
