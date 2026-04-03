@@ -410,7 +410,7 @@ function App() {
   const [teamRegistrationCount, setTeamRegistrationCount] = useState(0);
   const [fieldPurchaseCount, setFieldPurchaseCount] = useState(0);
   const [registrationFeeCount, setRegistrationFeeCount] = useState(0);
-  const [trainingRegion, setTrainingRegion] = useState("ChinoHills");
+  const [trainingRegion, setTrainingRegion] = useState("EASTVALE");
   const [trainingWeeks, setTrainingWeeks] = useState(0);
   const [sessionsPerWeek, setSessionsPerWeek] = useState(0);
   const [hoursPerSession, setHoursPerSession] = useState(0);
