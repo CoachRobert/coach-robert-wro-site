@@ -783,14 +783,14 @@ function App() {
 
                   <div style={s.row2}>
                     <NumberSelect
-                      label="州内现场教练服务"
+                      label="第一场比赛教练服务"
                       value={coachHours1}
                       onChange={setCoachHours1}
                       suffix="小时"
                       options={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
                     />
                     <NumberSelect
-                      label="州外现场教练服务"
+                      label="第二场比赛教练服务"
                       value={coachHours2}
                       onChange={setCoachHours2}
                       suffix="小时"
@@ -799,7 +799,7 @@ function App() {
                   </div>
 
                   <div>
-                    <label style={s.inputLabel}>服务1地点</label>
+                    <label style={s.inputLabel}>第一场比赛地点</label>
                     <select
                       value={coachLocation1}
                       onChange={(e) => setCoachLocation1(e.target.value)}
@@ -814,7 +814,7 @@ function App() {
                   </div>
 
                   <div>
-                    <label style={s.inputLabel}>服务2地点</label>
+                    <label style={s.inputLabel}>第二场比赛地点</label>
                     <select
                       value={coachLocation2}
                       onChange={(e) => setCoachLocation2(e.target.value)}
