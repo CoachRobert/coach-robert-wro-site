@@ -118,12 +118,6 @@ function styles() {
       display: "grid",
       gap: "16px",
     },
-    card: {
-      background: "#fff",
-      borderRadius: "24px",
-      boxShadow: "0 6px 24px rgba(15,23,42,0.08)",
-      overflow: "hidden",
-    },
     darkCard: {
       background: "linear-gradient(135deg, #020617, #0f172a 60%, #1d4ed8)",
       color: "#fff",
@@ -207,16 +201,6 @@ function styles() {
       display: "block",
       color: "#0f172a",
     },
-    input: {
-      width: "100%",
-      boxSizing: "border-box",
-      padding: "12px 14px",
-      borderRadius: "14px",
-      border: "1px solid #d1d5db",
-      fontSize: "14px",
-      outline: "none",
-      background: "#fff",
-    },
     select: {
       width: "100%",
       boxSizing: "border-box",
@@ -248,7 +232,8 @@ function styles() {
       fontSize: "14px",
       fontWeight: 600,
     },
-    resultDark: {
+    resultDarkBox: {
+      position: "relative",
       background: "#020617",
       color: "#fff",
       borderRadius: "20px",
@@ -289,17 +274,6 @@ function styles() {
       display: "flex",
       justifyContent: "space-between",
       gap: "12px",
-    },
-    btn: {
-      width: "100%",
-      border: "none",
-      borderRadius: "16px",
-      padding: "14px 16px",
-      background: "#0f172a",
-      color: "#fff",
-      fontSize: "15px",
-      fontWeight: 700,
-      cursor: "pointer",
     },
     linkBoxDark: {
       display: "flex",
@@ -354,6 +328,24 @@ function styles() {
       pointerEvents: "none",
       background: "#fff",
       paddingLeft: "4px",
+    },
+    hiddenToggleWrap: {
+      position: "absolute",
+      right: "16px",
+      bottom: "12px",
+      width: "30px",
+      height: "30px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    hiddenToggle: {
+      width: "18px",
+      height: "18px",
+      margin: 0,
+      cursor: "pointer",
+      opacity: 0.06,
+      accentColor: "#020617",
     },
   };
 }
@@ -423,6 +415,7 @@ function App() {
   const [shareDiscount, setShareDiscount] = useState(false);
   const [girlDiscount, setGirlDiscount] = useState(false);
   const [friendDiscount, setFriendDiscount] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
 
   const result = useMemo(() => {
     const project =
@@ -501,26 +494,6 @@ function App() {
     friendDiscount,
     teamSize,
   ]);
-
-  const copyQuote = async () => {
-    const text =
-      `Coach Robert WRO 报价\n` +
-      `项目：${competitionType}\n` +
-      `年龄组：${ageGroup}\n` +
-      `团队人数：${teamSize}\n` +
-      `培训地区：${trainingRegion}\n` +
-      `训练安排：${trainingWeeks}周 × 每周${sessionsPerWeek}次 × 每次${hoursPerSession}小时\n` +
-      `团队总成本：${money(result.teamTotal)}\n` +
-      `折扣后人均：${money(result.perStudent)}`;
-
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("报价摘要已复制");
-    } catch (e) {
-      console.error(e);
-      alert("复制失败，请手动复制");
-    }
-  };
 
   return (
     <div style={s.page}>
@@ -628,7 +601,6 @@ function App() {
                   </div>
                 ))}
               </div>
-
             </div>
           )}
 
@@ -844,7 +816,7 @@ function App() {
                     >
                       友情优惠
                     </span>
-                  
+
                     <input
                       type="checkbox"
                       checked={friendDiscount}
@@ -862,12 +834,21 @@ function App() {
               </div>
 
               <div style={s.formCard}>
-                <div style={s.resultDark}>
+                <div style={s.resultDarkBox}>
                   <div style={s.resultTitle}>团队总成本</div>
                   <div style={s.resultNum}>{money(result.teamTotal)}</div>
                   <div style={{ marginTop: "10px", fontSize: "12px", color: "#cbd5e1" }}>
                     {result.trainingHours} 小时训练 · 总折扣{" "}
                     {Math.round(result.totalDiscount * 100)}%
+                  </div>
+
+                  <div style={s.hiddenToggleWrap}>
+                    <input
+                      type="checkbox"
+                      checked={showDetail}
+                      onChange={(e) => setShowDetail(e.target.checked)}
+                      style={s.hiddenToggle}
+                    />
                   </div>
                 </div>
 
@@ -878,36 +859,36 @@ function App() {
                   <div style={s.resultGoldNum}>{money(result.perStudent)}</div>
                 </div>
 
-                <div style={{ height: "14px" }} />
+                {showDetail && <div style={{ height: "14px" }} />}
 
-                <div style={s.lineList}>
-                  <div style={s.lineItem}>
-                    <span>注册小计</span>
-                    <span>{money(result.competitionSubtotal)}</span>
+                {showDetail && (
+                  <div style={s.lineList}>
+                    <div style={s.lineItem}>
+                      <span>注册小计</span>
+                      <span>{money(result.competitionSubtotal)}</span>
+                    </div>
+                    <div style={s.lineItem}>
+                      <span>培训服务</span>
+                      <span>{money(result.trainingService)}</span>
+                    </div>
+                    <div style={s.lineItem}>
+                      <span>器材成本</span>
+                      <span>{money(result.trainingRobot)}</span>
+                    </div>
+                    <div style={s.lineItem}>
+                      <span>场地成本</span>
+                      <span>{money(result.venueSubtotal)}</span>
+                    </div>
+                    <div style={s.lineItem}>
+                      <span>交通成本</span>
+                      <span>{money(result.transportSubtotal)}</span>
+                    </div>
+                    <div style={s.lineItem}>
+                      <span>赛场教练服务</span>
+                      <span>{money(result.onsiteCoachSubtotal)}</span>
+                    </div>
                   </div>
-                  <div style={s.lineItem}>
-                    <span>培训服务</span>
-                    <span>{money(result.trainingService)}</span>
-                  </div>
-                  <div style={s.lineItem}>
-                    <span>器材成本</span>
-                    <span>{money(result.trainingRobot)}</span>
-                  </div>
-                  <div style={s.lineItem}>
-                    <span>场地成本</span>
-                    <span>{money(result.venueSubtotal)}</span>
-                  </div>
-                  <div style={s.lineItem}>
-                    <span>交通成本</span>
-                    <span>{money(result.transportSubtotal)}</span>
-                  </div>
-                  <div style={s.lineItem}>
-                    <span>赛场教练服务</span>
-                    <span>{money(result.onsiteCoachSubtotal)}</span>
-                  </div>
-                </div>
-
-                
+                )}
               </div>
             </div>
           )}
