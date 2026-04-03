@@ -9,12 +9,12 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Trophy, BookOpen, Calculator, Globe, Copy, ExternalLink } from "lucide-react";
 
-const coachImage = "/mnt/data/未来科技中的奖杯教练.png";
+const coachImage = "/public/coach.png";
 
 const pdfPages = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   title: `第${i + 1}页`,
-  src: `/mnt/data/wro_pdf_pages/page_${String(i + 1).padStart(2, "0")}.png`,
+  src: `/public/pdf/page_${String(i + 1).padStart(2, "0")}.png`,
 }));
 
 const competitionTypes = [
