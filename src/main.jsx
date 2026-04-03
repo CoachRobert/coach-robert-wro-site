@@ -690,7 +690,7 @@ function App() {
                     value={teamSize}
                     onChange={setTeamSize}
                     suffix="人"
-                    options={[1, 2, 3, 4, 5, 6, 7, 8]}
+                    options={[2, 3]}
                   />
 
                   <NumberSelect
@@ -702,7 +702,7 @@ function App() {
                   />
 
                   <NumberSelect
-                    label="比赛场地购买"
+                    label="比赛模型购买"
                     value={fieldPurchaseCount}
                     onChange={setFieldPurchaseCount}
                     suffix="次"
@@ -777,20 +777,20 @@ function App() {
                       value={trainingRobotKitCount}
                       onChange={setTrainingRobotKitCount}
                       suffix="套"
-                      options={[0, 1, 2, 3, 4, 5, 6]}
+                      options={[0, 1, 2, 3]}
                     />
                   </div>
 
                   <div style={s.row2}>
                     <NumberSelect
-                      label="服务1小时"
+                      label="州内现场教练服务"
                       value={coachHours1}
                       onChange={setCoachHours1}
                       suffix="小时"
                       options={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
                     />
                     <NumberSelect
-                      label="服务2小时"
+                      label="州外现场教练服务"
                       value={coachHours2}
                       onChange={setCoachHours2}
                       suffix="小时"
