@@ -643,6 +643,16 @@ function App() {
                 <div><span style={s.labelStrong}>服务城市：</span>Eastvale · Rancho Cucamonga · Chino Hills · Irvine</div>
                 <div><span style={s.labelStrong}>支持方式：</span>线下训练、上门培训、组队支持、比赛咨询</div>
                 <div><span style={s.labelStrong}>联系电话：</span>909-219-3801</div>
+              
+                {/* 新增 WeChat 区域 */}
+                <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "16px" }}>
+                  <div style={{ fontWeight: 700 }}>WeChat QR code</div>
+                  <img
+                    src="/wechat_QR_code.png"
+                    alt="WeChat QR Code"
+                    style={{ width: "100px", borderRadius: "12px" }}
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -900,16 +910,6 @@ function App() {
       </div>
 
 
-
-      <div style={s.fixedBar}>
-        <div style={s.fixedBarInner}>
-          <div>
-            <div style={s.fixedSmall}>Quick Contact</div>
-            <div style={s.fixedTitle}>Coach Robert · 909-219-3801</div>
-          </div>
-          <button style={s.fixedBtn}>联系咨询</button>
-        </div>
-      </div>
     </div>
   );
 }
