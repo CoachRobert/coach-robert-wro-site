@@ -38,7 +38,7 @@ const trainingRegions = [
 
 const tabs = [
   { id: "coach", label: "Coach Robert" },
-  { id: "training", label: "WRO培训" },
+  { id: "training", label: "培训介绍" },
   { id: "calculator", label: "报价" },
   { id: "official", label: "官网" },
 ];
