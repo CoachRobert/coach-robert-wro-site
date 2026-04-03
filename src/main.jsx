@@ -612,35 +612,23 @@ function App() {
                   <div
                     key={page.id}
                     style={{
-                      background: "#ffffff",
                       borderRadius: "20px",
-                      padding: "10px",
-                      boxShadow: "0 6px 20px rgba(15,23,42,0.08)",
+                      overflow: "hidden",
                     }}
                   >
-                    <div
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 700,
-                        color: "#334155",
-                        padding: "4px 4px 10px 4px",
-                      }}
-                    >
-                      {page.title}
-                    </div>
-
                     <img
                       src={page.src}
                       alt={page.title}
                       style={{
                         width: "100%",
                         display: "block",
-                        borderRadius: "16px",
+                        borderRadius: "20px",
                       }}
                     />
                   </div>
                 ))}
               </div>
+
             </div>
           )}
 
