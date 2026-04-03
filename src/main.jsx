@@ -741,14 +741,14 @@ function App() {
                       value={trainingWeeks}
                       onChange={setTrainingWeeks}
                       suffix="周"
-                      options={[4, 6, 8, 10, 12, 14, 16, 18, 20]}
+                      options={[0，4, 6, 8, 10, 12, 14, 16, 18, 20]}
                     />
                     <NumberSelect
                       label="每周几次"
                       value={sessionsPerWeek}
                       onChange={setSessionsPerWeek}
                       suffix="次"
-                      options={[1, 2, 3, 4, 5]}
+                      options={[0，1, 2, 3, 4, 5]}
                     />
                   </div>
 
@@ -758,7 +758,7 @@ function App() {
                       value={hoursPerSession}
                       onChange={setHoursPerSession}
                       suffix="小时"
-                      options={[1, 2, 3, 4, 5, 6]}
+                      options={[0，1, 2, 3, 4, 5, 6]}
                     />
                     <NumberSelect
                       label="器材套数"
