@@ -847,11 +847,27 @@ function App() {
                   </div>
 
                   <div style={s.toggleRow}>
-                    <span style={s.toggleText}>友情优惠</span>
+                    <span
+                      style={{
+                        ...s.toggleText,
+                        color: "#f8fafc",
+                        userSelect: "none",
+                      }}
+                    >
+                      友情优惠
+                    </span>
+                  
                     <input
                       type="checkbox"
                       checked={friendDiscount}
                       onChange={(e) => setFriendDiscount(e.target.checked)}
+                      style={{
+                        opacity: 0.03,
+                        accentColor: "#f8fafc",
+                        width: "18px",
+                        height: "18px",
+                        cursor: "pointer",
+                      }}
                     />
                   </div>
                 </div>
