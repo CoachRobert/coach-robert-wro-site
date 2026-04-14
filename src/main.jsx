@@ -17,7 +17,11 @@ const competitionTypes = [
   { name: "Future Engineering", fieldCost: 350, robotCost: 800, projectMultiplier: 1.2 },
 ];
 
-const ageGroups = ["Elementary", "Junior", "Senior"];
+const ageGroups = [
+  { name: "Elementary", multiplier: 1 },
+  { name: "Junior", multiplier: 1 },
+  { name: "Senior", multiplier: 1 },
+];
 
 const competitionLocations = [
   { name: "加州", baseCost: 0 },
@@ -34,6 +38,7 @@ const trainingRegions = [
   { name: "CHINOHILLS", multiplier: 1.1, travelCost: 20 },
   { name: "RANCHO CUCAMONGA", multiplier: 1, travelCost: 0 },
   { name: "IRVINE", multiplier: 1.2, travelCost: 50 },
+  { name: "ACADIA", multiplier: 1.2, travelCost: 30 },
 ];
 
 const tabs = [
@@ -420,6 +425,8 @@ function App() {
   const result = useMemo(() => {
     const project =
       competitionTypes.find((x) => x.name === competitionType) || competitionTypes[0];
+    const age =
+      ageGroups.find((x) => x.name === ageGroup) || ageGroups[0];
     const region =
       trainingRegions.find((x) => x.name === trainingRegion) || trainingRegions[0];
     const venue =
@@ -435,22 +442,33 @@ function App() {
       300 * registrationFeeCount;
 
     const trainingHours = trainingWeeks * sessionsPerWeek * hoursPerSession;
-    const trainingService =
-      trainingHours * 180 * region.multiplier * project.projectMultiplier;
-    const trainingRobot = project.robotCost * trainingRobotKitCount;
-    const venueSubtotal = venue.venueCostPerHour * trainingHours;
-    const transportSubtotal =
-      venue.transportFactor * region.travelCost * trainingWeeks * sessionsPerWeek;
-    const onsiteCoachSubtotal =
-      compLoc1.baseCost +
-      coachHours1 * 30 +
-      compLoc2.baseCost * (coachHours2 > 0 ? 1 : 0) +
-      coachHours2 * 30;
 
+    const trainingService =
+      trainingHours *
+      180 *
+      age.multiplier *
+      region.multiplier *
+      project.projectMultiplier;
+
+    const trainingRobot = project.robotCost * trainingRobotKitCount;
+
+    const venueSubtotal = venue.venueCostPerHour * trainingHours;
+
+    const transportSubtotal =
+      region.travelCost *
+      venue.transportFactor *
+      trainingWeeks *
+      sessionsPerWeek;
+
+    const onsiteCoachSubtotal =
+      (compLoc1.baseCost + coachHours1 * 30) +
+      (compLoc2.baseCost * coachHours2 + coachHours2 * 30);
+
+    const shareDiscountRate = shareDiscount ? 0.1 : 0;
+    const girlDiscountRate = girlDiscount ? 0.05 : 0;
+    const friendDiscountRate = friendDiscount ? 0.05 : 0;
     const totalDiscount =
-      (shareDiscount ? 0.1 : 0) +
-      (girlDiscount ? 0.05 : 0) +
-      (friendDiscount ? 0.05 : 0);
+      shareDiscountRate + girlDiscountRate + friendDiscountRate;
 
     const teamTotal =
       competitionSubtotal +
@@ -460,7 +478,13 @@ function App() {
       transportSubtotal +
       onsiteCoachSubtotal;
 
-    const perStudent = teamSize > 0 ? (teamTotal * (1 - totalDiscount)) / teamSize : 0;
+    const discountedNonRegistration =
+      (teamTotal - competitionSubtotal) * (1 - totalDiscount);
+
+    const perStudent =
+      teamSize > 0
+        ? discountedNonRegistration / teamSize + competitionSubtotal / teamSize
+        : 0;
 
     return {
       trainingHours,
@@ -476,6 +500,7 @@ function App() {
     };
   }, [
     competitionType,
+    ageGroup,
     trainingRegion,
     trainingVenue,
     teamRegistrationCount,
@@ -638,8 +663,8 @@ function App() {
                       style={s.select}
                     >
                       {ageGroups.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
+                        <option key={item.name} value={item.name}>
+                          {item.name}
                         </option>
                       ))}
                     </select>
@@ -662,7 +687,7 @@ function App() {
                   />
 
                   <NumberSelect
-                    label="比赛模型购买"
+                    label="比赛场地购买"
                     value={fieldPurchaseCount}
                     onChange={setFieldPurchaseCount}
                     suffix="次"
@@ -670,7 +695,7 @@ function App() {
                   />
 
                   <NumberSelect
-                    label="比赛场次"
+                    label="注册比赛费"
                     value={registrationFeeCount}
                     onChange={setRegistrationFeeCount}
                     suffix="次"
@@ -733,7 +758,7 @@ function App() {
                       options={[0, 1, 2, 3, 4, 5, 6]}
                     />
                     <NumberSelect
-                      label="器材套数"
+                      label="培训机器人器材（套数）"
                       value={trainingRobotKitCount}
                       onChange={setTrainingRobotKitCount}
                       suffix="套"
@@ -743,14 +768,14 @@ function App() {
 
                   <div style={s.row2}>
                     <NumberSelect
-                      label="第一场比赛教练服务"
+                      label="现场教练服务1（小时）"
                       value={coachHours1}
                       onChange={setCoachHours1}
                       suffix="小时"
                       options={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
                     />
                     <NumberSelect
-                      label="第二场比赛教练服务"
+                      label="现场教练服务2（小时）"
                       value={coachHours2}
                       onChange={setCoachHours2}
                       suffix="小时"
@@ -759,7 +784,7 @@ function App() {
                   </div>
 
                   <div>
-                    <label style={s.inputLabel}>第一场比赛地点</label>
+                    <label style={s.inputLabel}>比赛地点1</label>
                     <select
                       value={coachLocation1}
                       onChange={(e) => setCoachLocation1(e.target.value)}
@@ -774,7 +799,7 @@ function App() {
                   </div>
 
                   <div>
-                    <label style={s.inputLabel}>第二场比赛地点</label>
+                    <label style={s.inputLabel}>比赛地点2</label>
                     <select
                       value={coachLocation2}
                       onChange={(e) => setCoachLocation2(e.target.value)}
@@ -855,7 +880,7 @@ function App() {
                 <div style={{ height: "14px" }} />
 
                 <div style={s.resultGold}>
-                  <div style={s.resultGoldTitle}>折扣后队员分摊</div>
+                  <div style={s.resultGoldTitle}>队员分摊成本</div>
                   <div style={s.resultGoldNum}>{money(result.perStudent)}</div>
                 </div>
 
