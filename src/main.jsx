@@ -38,7 +38,7 @@ const trainingRegions = [
   { name: "CHINOHILLS", multiplier: 1.1, travelCost: 20 },
   { name: "RANCHO CUCAMONGA", multiplier: 1, travelCost: 0 },
   { name: "IRVINE", multiplier: 1.2, travelCost: 50 },
-  { name: "ACADIA", multiplier: 1.2, travelCost: 30 },
+  { name: "ARCADIA", multiplier: 1.2, travelCost: 30 },
 ];
 
 const tabs = [
